@@ -1,0 +1,15 @@
+.dbtn {
+    position: absolute;
+    top: 5%;
+    left: 36%;
+    right: 36%;
+    margin: auto;
+}
+
+.sbtn {
+    position: absolute;
+    bottom: 5%;
+    left: 36%;
+    right: 36%;
+    margin: auto;
+}

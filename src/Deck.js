@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Card from './Card';
+import './Deck.css'
 
 
 const Deck = () => {
@@ -15,7 +16,7 @@ const Deck = () => {
     useEffect(function obtainDeck() {
         async function shuffleNew() {
             try {
-                const {data} = await axios.get(
+                const { data } = await axios.get(
                     "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
                 );
                 //sets the deckId so we aren't constantly grabbing new decks
@@ -32,16 +33,15 @@ const Deck = () => {
     //Draws a single card, adds it to cards, and changes remaining to reflect the remaining deck
     async function drawCard() {
         try {
-            const {data} = await axios.get(
+            const { data } = await axios.get(
                 `https://deckofcardsapi.com/api/deck/${deckId.current}/draw`
             );
-            console.log(data);
             const card = data.cards[0];
             setCards([...cards, {
-                code : card.code,
-                image : card.image,
-                suit : card.suit,
-                value : card.value
+                code: card.code,
+                image: card.image,
+                suit: card.suit,
+                value: card.value
             }]);
             setRemaining(data.remaining);
         } catch (e) {
@@ -52,7 +52,7 @@ const Deck = () => {
     //Shuffle the deck and reset cards and remaining
     async function shuffle() {
         try {
-            const {data} = await axios.get(
+            const { data } = await axios.get(
                 `https://deckofcardsapi.com/api/deck/${deckId.current}/shuffle/`
             );
             setCards([]);
@@ -64,16 +64,17 @@ const Deck = () => {
 
     return (
         <>
-            {remaining > 0 
-                ? <button onClick={drawCard}>Draw</button>
-                : <button onClick={shuffle}>ReShuffle</button>
+            {
+                remaining > 0 
+                    ? <button onClick={drawCard} className="dbtn">Draw</button>
+                    : <button onClick={shuffle} className="sbtn">ReShuffle</button>
             }
             {cards.map(c => (
-                <Card 
+                <Card
                     key={c.code}
                     image={c.image}
                     suit={c.suit}
-                    value={c.value} 
+                    value={c.value}
                 />))
             }
         </>
