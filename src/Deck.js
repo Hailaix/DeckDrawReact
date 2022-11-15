@@ -29,6 +29,7 @@ const Deck = () => {
         shuffleNew();
     }, []);
 
+    //Draws a single card, adds it to cards, and changes remaining to reflect the remaining deck
     async function drawCard() {
         try {
             const {data} = await axios.get(
@@ -48,9 +49,25 @@ const Deck = () => {
         }
     }
 
+    //Shuffle the deck and reset cards and remaining
+    async function shuffle() {
+        try {
+            const {data} = await axios.get(
+                `https://deckofcardsapi.com/api/deck/${deckId.current}/shuffle/`
+            );
+            setCards([]);
+            setRemaining(data.remaining);
+        } catch (e) {
+            alert(e);
+        }
+    }
+
     return (
         <>
-            {remaining > 0 && <button onClick={drawCard}>Draw</button>}
+            {remaining > 0 
+                ? <button onClick={drawCard}>Draw</button>
+                : <button onClick={shuffle}>ReShuffle</button>
+            }
             {cards.map(c => (
                 <Card 
                     key={c.code}
